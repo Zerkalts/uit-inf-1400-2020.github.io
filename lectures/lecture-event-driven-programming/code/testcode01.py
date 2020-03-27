@@ -80,17 +80,17 @@ class Cursor:
         self.cursor_size = 15
 
     def move(self, _):
-        self.x, self.y = pygame.mouse.get_pos()
-
+        # self.x, self.y = pygame.mouse.get_pos()
+        pass
+    
     def draw(self):
         x, y = round(self.x), round(self.y)
         cs = self.cursor_size
         pygame.draw.line(screen, self.col, (x - cs, y - cs), (x + cs, y + cs), 2)
         pygame.draw.line(screen, self.col, (x - cs, y + cs), (x + cs, y - cs), 2)
-
-
-def mouse_handler(event):
-    print("Mouse move:", event.pos, event.rel, event)
+    
+    def cursor_handler(self, event):
+        self.x, self.y = event.pos
 
 
 def my_handler(event):
@@ -100,10 +100,10 @@ def my_handler(event):
         print("---- tester post")
         e1 = pygame.event.Event(MY_EVENT, attr1='attr1')
         pygame.event.post(e1)
-    if v > 23:
-        print("---- ugh")
-        e1 = pygame.event.Event(QUIT)
-        pygame.event.post(e1)
+    # if v > 23:
+    #     print("---- ugh")
+    #     e1 = pygame.event.Event(QUIT)
+    #     pygame.event.post(e1)
 
 
 def simple_handler(event):
@@ -152,7 +152,7 @@ objects = [
 foo = Foo()
 
 dispatcher = Dispatcher()
-dispatcher.register_handler(MOUSEMOTION, mouse_handler)
+dispatcher.register_handler(MOUSEMOTION, objects[-1].cursor_handler)
 dispatcher.register_handler(MY_EVENT, my_handler)
 dispatcher.register_handler(MY_EVENT, simple_handler)
 dispatcher.register_handler(MY_EVENT, foo.handler)
